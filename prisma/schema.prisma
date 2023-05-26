@@ -12,8 +12,6 @@ model Transaction {
   name      String
   createdAt DateTime           @default(now())
   updatedAt DateTime
-  job       Job?               @relation(fields: [jobId], references: [id])
-  jobId     String?            @db.ObjectId
   status    status_transaction @default(pending)
   trace     Trace[]
 }
