@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id        String             @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime           @default(now())
+  updatedAt DateTime
+  job       Job?               @relation(fields: [jobId], references: [id])
+  jobId     String?            @db.ObjectId
+  status    status_transaction @default(pending)
+  trace     Trace[]
+}
+
+model Trace {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  status       String
+  createdAt    DateTime    @default(now())
+  body         Json
+  transaction  Transaction @relation(fields: [trasactionId], references: [id])
+  trasactionId String      @db.ObjectId
+}
+
+enum status_transaction {
+  pending
+  success
+  error
+  rejected
+  alert
+}

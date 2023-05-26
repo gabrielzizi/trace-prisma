@@ -1,0 +1,23 @@
+{
+  "name": "trace-prisma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node ./js/index.js"
+  },
+  "keywords": [],
+  "author": "gabrielzizi",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "prisma": "^4.14.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.14.1",
+    "mongodb": "^5.5.0"
+  }
+}
