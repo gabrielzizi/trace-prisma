@@ -7,11 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Job {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  name        String        @unique
+  transaction Transaction[]
+}
+
 model Transaction {
   id        String             @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   createdAt DateTime           @default(now())
   updatedAt DateTime
+  job       Job?               @relation(fields: [jobId], references: [id])
+  jobId     String?            @db.ObjectId
   status    status_transaction @default(pending)
   trace     Trace[]
 }
