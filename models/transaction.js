@@ -4,6 +4,8 @@ const Trace = require("./trace");
 const prisma = new PrismaClient();
 const traceModel = new Trace()
 
+var ms = 1500;
+
 module.exports = class Transaction {
     constructor(jobid) {
         this.jobid = jobid || null;
@@ -20,6 +22,7 @@ module.exports = class Transaction {
 
     success = async (name) => {
         try {
+            await sleep(ms)
             updateTransaction(name, status_transaction.success)
         } catch (error) {
             console.log(error)
@@ -28,33 +31,45 @@ module.exports = class Transaction {
 
     error = async (name) => {
         try {
+            await sleep(ms)
             updateTransaction(name, status_transaction.error)
         } catch (error) {
-            return error
+            console.log(error)
         }
     }
 
     rejected = async (name) => {
         try {
+            await sleep(ms)
             updateTransaction(name, status_transaction.rejected)
         } catch (error) {
-            return error
+            console.log(error)
         }
     }
 
     alert = async (name) => {
         try {
+            await sleep(ms)
             updateTransaction(name, status_transaction.alert)
         } catch (error) {
-            return error
+            console.log(error)
         }
     }
 
     trace = async (transactionName, body, status, nameTrace) => {
-        const idTransaction = await getIdByName(transactionName)
-        await traceModel.trace(idTransaction, body, status, nameTrace)
+        try {
+            await sleep(ms)
+            const idTransaction = await getIdByName(transactionName)
+            await traceModel.trace(idTransaction, body, status, nameTrace)
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+ }
 
 async function updateTransaction(name, status){
     try {
